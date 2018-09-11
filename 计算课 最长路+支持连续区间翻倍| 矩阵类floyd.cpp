@@ -96,6 +96,12 @@ Mat powmod2(Mat a, Mat g, int n)
     }
     return ans;
 }
+/// 或者可以这么写
+/// FOR (i, 0, lim) {
+///        if (K & (1 << i)) R = rA * R + R * A;
+///        R = rA * R + R * A;
+///        rA = rA * rA; A = A * A;
+///    }
 
 void work()
 {
