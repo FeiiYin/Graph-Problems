@@ -34,7 +34,7 @@ void dfs (int now, int pa) {
 void init_lca (int n) {
     dfs(1, -1); /// st, -1 根据起点标号dfs
     for (int k = 0; k < 20; k ++) {
-        for (int v = 0; v < n; v ++) {
+        for (int v = 1; v <= n; v ++) { 
             if (pre[k][v])
                 pre[k + 1][v] = pre[k][ pre[k][v] ];
         }
