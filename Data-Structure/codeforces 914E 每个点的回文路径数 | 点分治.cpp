@@ -49,7 +49,6 @@ void solve (int now) {
 	dfs(now, -1, 1, 0);
 	LL sum = cnt[0]; /// 计算当前节点开头的路径数
 	for (int i = 0; i < 20; ++i) sum += cnt[1 << i];
-	ans[now] += sum; sum = 0;
 	for (int to : edge[now]) if (! visit[to]) {
         dfs(to, now, -1, 1 << (arr[now] - 'a')); /// 防止同一颗子树计数
         sum += cal(to, now, 0);
@@ -63,9 +62,8 @@ void solve (int now) {
         solve(root);
 	}
 }
-
 int main() {
-    freopen("in.txt", "r", stdin);
+    //freopen("in.txt", "r", stdin);
     int n; scanf("%d", &n);
     int l, r;
     for (int i = 1; i < n; ++i) {
@@ -77,6 +75,6 @@ int main() {
     root = -1, root_max_son = N, getroot_sum = n;
     getroot(1, -1);
     solve(root);
-    for (int i = 1; i <= n; ++i) printf("%lld ", ans[i]);
+    for (int i = 1; i <= n; ++i) printf("%lld ", ans[i] + 1);
     return 0;
 }
