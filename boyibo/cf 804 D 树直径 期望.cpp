@@ -68,7 +68,7 @@ int vertice_dis[N];
 int diameter[N];
 /// 每一个子树里的点到最远点的距离，前缀和
 vector<int> dis[N];
-vector<int> pre[N];
+vector<LL> pre[N];
 void init(int n) {
     memset(head, -1, sizeof(head[0]) * (n + 3));
     edge_cnt = 0;
@@ -139,18 +139,18 @@ int main() {
     while (q--) {
         scanf("%d %d", &l, &r);
         l = belong[l]; r = belong[r];
+        if (dis[l].size() > dis[r].size() || (dis[l].size() == dis[r].size() && l > r)) swap(l, r);
         if (l == r) puts("-1");
         else if (cache.count({l, r})) printf("%.10f\n", cache[{l, r}]);
         else {
-            if (dis[l].size() > dis[r].size()) swap(l, r);
             double ans = 0.0;
             int max_diameter = max(diameter[l], diameter[r]);
 
             for (int i : dis[l]) {
                 int pos = upper_bound(dis[r].begin(), dis[r].end(), max_diameter - i - 1) - dis[r].begin();
-                if (pos == dis[r].size()) ans += max_diameter * dis[r].size() * 1.0;
+                if (pos == dis[r].size()) ans += max_diameter * 1.0 * dis[r].size();
                 else
-                    ans += max_diameter * pos * 1.0 + (i + 1) * (dis[r].size() - pos) + pre[r].back() - (pos == 0 ? 0 : pre[r][pos - 1]);
+                    ans += max_diameter * 1.0 * pos + (i + 1) * 1.0 * (dis[r].size() - pos) + pre[r].back() - (pos == 0 ? 0 : pre[r][pos - 1]);
             }
             ans /= (dis[l].size() * dis[r].size() * 1.0);
             cache[{l, r}] = ans;
