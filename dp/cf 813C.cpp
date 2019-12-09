@@ -1,4 +1,4 @@
-/// 给出长度为nnn的序列，从中找出222个子序列，满足每个子序列相邻两数之间要么相差111，要么同余于777，求这两个子序列的最长长度和。
+/// 给出长度为n的序列，从中找出2个子序列，满足每个子序列相邻两数之间要么相差1，要么同余于7，求这两个子序列的最长长度和。
 /**
  * @Samaritan
  */
@@ -66,7 +66,6 @@ int main() {
     scanf("%d", &n);
     for (int i = 1; i <= n; ++i) {
         scanf("%d", &arr[i]);
-        arr[i] %= 7;
     }
 
     int ans = 1;
@@ -77,17 +76,18 @@ int main() {
         memset(pre, 0, sizeof pre);
         for (int j = 1; j < i; ++j) {
             /// premod[arr[k]] = max(dp[i][k])
-            premod[arr[j]] = max(premod[arr[j]], dp[i][j]);
+            premod[arr[j] % mod] = max(premod[arr[j] % mod], dp[i][j]);
             pre[arr[j]] = max(pre[arr[j]], dp[i][j]);
         }
         for (int j = i + 1; j <= n; ++j) {
             dp[i][j] = max(pre[arr[j] + 1] + 1, pre[arr[j] - 1] + 1);
-            dp[i][j] = max(dp[i][j], premod[arr[j]] + 1);
+            dp[i][j] = max(dp[i][j], premod[arr[j] % mod] + 1);
             /// 直接取该位为第一位
             dp[i][j] = max(dp[i][j], dp[i][0] + 1);
 
             dp[j][i] = dp[i][j];
-            premod[arr[j]] = max(premod[arr[j]], dp[i][j]);
+            premod[arr[j] % mod] = max(premod[arr[j] % mod], dp[i][j]);
+            pre[arr[j]] = max(pre[arr[j]], dp[i][j]);
             ans = max(ans, dp[i][j]);
         }
     }
